@@ -1,0 +1,14 @@
+Putty
+    Public ip
+		Convert pem to ppk file using PuttyGen or ssh-keygen tools
+		Username - ec2-user(linux) / Ubuntu (Ubuntu)
+		Should allow ssh port with in security group
+Mobaxterm
+		Username- ec2-user(linux) / Ubuntu (Ubuntu)
+		Pem file (private key)
+		Should allow ssh port with in security group
+    Public ip
+GitBash
+		ssh -i <pem file- path>   username@public ip
+		kiran@ADVAITH MINGW64 ~/Downloads
+    $ ssh -i test.pem ubuntu@100.24.244.244
