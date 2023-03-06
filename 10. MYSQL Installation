@@ -1,0 +1,116 @@
+MYSQL Installation on AWS_EC2
+.............................
+
+[root@ip-172-31-52-79 yum.repos.d]# amazon-linux-extras install epel –y
+[root@ip-172-31-52-79 yum.repos.d]# ls -lrt
+total 24
+-rw-r--r-- 1 root root   85 Nov 29  2016 jenkins.repo
+-rw-r--r-- 1 root root 1050 Aug 29  2018 epel-testing.repo
+-rw-r--r-- 1 root root  951 Aug 29  2018 epel.repo
+-rw-r--r-- 1 root root 1003 Oct 26  2021 amzn2-core.repo
+-rw-r--r-- 1 root root  190 Feb  1 06:18 mongodb-org-6.0.repo
+-rw-r--r-- 1 root root 3132 Feb  7 05:20 amzn2-extras.repo
+
+[root@ip-172-31-52-79 yum.repos.d]# yum install https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm
+[root@ip-172-31-52-79 yum.repos.d]# ls -lrt
+total 32
+-rw-r--r-- 1 root root   85 Nov 29  2016 jenkins.repo
+-rw-r--r-- 1 root root 1050 Aug 29  2018 epel-testing.repo
+-rw-r--r-- 1 root root  951 Aug 29  2018 epel.repo
+-rw-r--r-- 1 root root 1003 Oct 26  2021 amzn2-core.repo
+-rw-r--r-- 1 root root 2132 Jan 12  2022 mysql-community-source.repo
+-rw-r--r-- 1 root root 2062 Jan 12  2022 mysql-community.repo
+-rw-r--r-- 1 root root  190 Feb  1 06:18 mongodb-org-6.0.repo
+-rw-r--r-- 1 root root 3132 Feb  7 05:20 amzn2-extras.repo
+
+[root@ip-172-31-52-79 yum.repos.d]# pwd
+/etc/yum.repos.d
+[root@ip-172-31-52-79 yum.repos.d]# yum install mysql-community-server
+
+[root@ip-172-31-52-79 yum.repos.d]# systemctl status mysqld
+● mysqld.service - MySQL Server
+   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: man:mysqld(8)
+           http://dev.mysql.com/doc/refman/en/using-systemd.html
+           
+[root@ip-172-31-52-79 yum.repos.d]# systemctl enable --now mysqld
+Active: active (running) since Tue 2023-02-07 05:33:17 UTC; 5s ago
+Find the default password for mysqldb
+
+get the db temporary password from below
+[root@ip-172-31-52-79 log]# cat /var/log/mysqld.log | grep "A temporary password"
+2023-02-07T05:33:12.233273Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: rIle?4e9mC/N
+
+[root@ip-172-31-52-79 log]# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.32
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql>
+after the root password
+
+To change the password
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'Pass@123';
+Query OK, 0 rows affected (0.01 sec)
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> create table employee(empno varchar(40), empname varchar(40));
+ERROR 1046 (3D000): No database selected
+
+mysql> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table employee(empno varchar(40), empname varchar(40));
+Query OK, 0 rows affected (0.03 sec)
+
+..............below steps throws error.....................
+mysql> create user 'kiran'@'localhost' identified by 'Proceed@1';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant all privileges on *.* to 'kiran'@'localhost' with grant option;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+............................................................
+
+mysql> CREATE USER 'test'@'%' IDENTIFIED BY 'Welcome@1';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+
+Download DBeaver
+Select MySQL
+Enter EC2 IP address, dbname(mysql) username(test), password.
+Try to install the required drivers
+Add the DB port number in EC2 security groups with allow access.
+Allow publickeyretrive is true
+Do a testconnection
+
+mysql> create table class(stdno varchar(40),stdname varchar(40));
+Query OK, 0 rows affected (0.02 sec)
+mysql> insert into class(stdno,stdname) values ('100','Advaith');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>exit
