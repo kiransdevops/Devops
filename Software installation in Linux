@@ -1,0 +1,11 @@
+Package management in Linux
+.............................
+If you want to work on git/maven/tomcat -> Needs install through packages in different approaches.
+
+.repo - yum
+.rpm  - rpm -ivh
+.tar  - need to extract the file and set the environment variables
+.zip  - need to unzip and set the environment variables
+
+RPM (RedHat Package Manager)
+Default path of repo files - cd /etc/yum.repos.d/
