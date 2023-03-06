@@ -1,0 +1,20 @@
+Mongo DB installation
+.........................
+
+Go to https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-amazon/
+Create a /etc/yum.repos.d/mongodb-org-6.0.repo file so that you can install MongoDB directly using yum:
+
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+
+[root@ip-172-31-52-79 yum.repos.d]# ll
+total 12
+-rw-r--r-- 1 root root 1003 Oct 26  2021 amzn2-core.repo
+-rw-r--r-- 1 root root 2150 Jan 24 23:06 amzn2-extras.repo
+-rw-r--r-- 1 root root  190 Feb  1 06:18 mongodb-org-6.0.repo
+
+yum install -y mongodb-org
