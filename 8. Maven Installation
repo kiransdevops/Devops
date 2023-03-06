@@ -1,0 +1,50 @@
+Maven installation
+..................
+
+JDK installation is prerequisite for Maven setup.
+
+[root@ip-172-31-52-79 /]# mvn --version
+-bash: mvn: command not found
+
+Any 3rd party application we need to download under /opt or /usr directory
+
+Download Maven from below path:
+https://maven.apache.org/download.cgi
+
+[root@ip-172-31-52-79 opt]# wget https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
+--2023-02-03 08:22:05--  https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
+Resolving dlcdn.apache.org (dlcdn.apache.org)... 151.101.2.132, 2a04:4e42::644
+Connecting to dlcdn.apache.org (dlcdn.apache.org)|151.101.2.132|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8293440 (7.9M) [application/x-gzip]
+Saving to: ‘apache-maven-3.8.7-bin.tar.gz’
+
+100%[====================================================================================>] 8,293,440   --.-K/s   in 0.07s
+
+2023-02-03 08:22:05 (106 MB/s) - ‘apache-maven-3.8.7-bin.tar.gz’ saved [8293440/8293440]
+
+[root@ip-172-31-52-79 opt]# tar -xvf apache-maven-3.8.7-bin.tar.gz
+
+All the binary files will present under /bin/ (pwd,ls, etc.,) 
+
+[root@ip-172-31-52-79 bin]# /opt/apache-maven-3.8.7/bin/mvn -v
+Apache Maven 3.8.7 (b89d5959fcde851dcb1c8946a785a163f14e1e29)
+Maven home: /opt/apache-maven-3.8.7
+Java version: 1.8.0_342, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.amzn2.0.1.x86_64/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "5.10.162-141.675.amzn2.x86_64", arch: "amd64", family: "unix"
+
+[root@ip-172-31-52-79 bin]# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+[root@ip-172-31-52-79 bin]# export PATH=$PATH:/opt/apache-maven-3.8.7/bin
+[root@ip-172-31-52-79 bin]# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/opt/apache-maven-3.8.7/bin
+
+[root@ip-172-31-52-79 bin]# mvn -v
+Apache Maven 3.8.7 (b89d5959fcde851dcb1c8946a785a163f14e1e29)
+Maven home: /opt/apache-maven-3.8.7
+Java version: 1.8.0_342, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.amzn2.0.1.x86_64/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "5.10.162-141.675.amzn2.x86_64", arch: "amd64", family: "unix"
+[root@ip-172-31-52-79 bin]# pwd
+/opt/apache-maven-3.8.7/bin
