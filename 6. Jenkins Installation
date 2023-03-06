@@ -1,0 +1,83 @@
+Jenkins Installation
+.....................
+[root@ip-172-31-52-79 ~]# yum install jenkins
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+No package jenkins available.
+Error: Nothing to do
+[root@ip-172-31-52-79 ~]#
+
+Go to https://www.jenkins.io/
+Go to Download
+Select the OS (Amazon Linux) , it will redirect into https://pkg.jenkins.io/redhat-stable/
+
+[root@ip-172-31-52-79 ~]# wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+--2023-02-01 06:32:19--  https://pkg.jenkins.io/redhat-stable/jenkins.repo
+Resolving pkg.jenkins.io (pkg.jenkins.io)... 146.75.38.133, 2a04:4e42:79::645
+Connecting to pkg.jenkins.io (pkg.jenkins.io)|146.75.38.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 85
+Saving to: ‘/etc/yum.repos.d/jenkins.repo’
+
+100%[====================================================================================>] 85          --.-K/s   in 0s
+
+2023-02-01 06:32:19 (6.16 MB/s) - ‘/etc/yum.repos.d/jenkins.repo’ saved [85/85]
+
+[root@ip-172-31-52-79 ~]# cd /etc/yum.repos.d/
+[root@ip-172-31-52-79 yum.repos.d]# ls -lrt
+total 16
+-rw-r--r-- 1 root root   85 Nov 29  2016 jenkins.repo
+-rw-r--r-- 1 root root 1003 Oct 26  2021 amzn2-core.repo
+-rw-r--r-- 1 root root 2150 Jan 24 23:06 amzn2-extras.repo
+-rw-r--r-- 1 root root  190 Feb  1 06:18 mongodb-org-6.0.repo
+
+[root@ip-172-31-52-79 yum.repos.d]# yum install jenkins -y
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+Resolving Dependencies
+--> Running transaction check
+---> Package jenkins.noarch 0:2.375.2-1.1 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+==============================================================================================================================
+ Package                      Arch                        Version                          Repository                    Size
+==============================================================================================================================
+Installing:
+ jenkins                      noarch                      2.375.2-1.1                      jenkins                       91 M
+
+Transaction Summary
+==============================================================================================================================
+Install  1 Package
+
+Total download size: 91 M
+Installed size: 91 M
+Downloading packages:
+warning: /var/cache/yum/x86_64/2/jenkins/packages/jenkins-2.375.2-1.1.noarch.rpm: Header V4 RSA/SHA512 Signature, key ID 45f2c3d5: NOKEY
+Public key for jenkins-2.375.2-1.1.noarch.rpm is not installed
+jenkins-2.375.2-1.1.noarch.rpm                                                                         |  91 MB  00:00:22
+
+Public key for jenkins-2.375.2-1.1.noarch.rpm is not installed
+
+Note: sometimes installation might fail with error as Requires: deamonize, during that time we need to install the dependent packages by using below command.
+[root@ip-172-31-52-79 yum.repos.d]#amazon-linux-extras install epel –y
+
+To resolve the public key error, we need install the public key.
+
+[root@ip-172-31-52-79 yum.repos.d]# cat jenkins.repo
+[jenkins]
+name=Jenkins-stable
+baseurl=http://pkg.jenkins.io/redhat-stable
+gpgcheck=1
+
+[root@ip-172-31-52-79 yum.repos.d]# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+[root@ip-172-31-52-79 yum.repos.d]# yum install jenkins –y
+Transaction test succeeded
+Running transaction
+  Installing : jenkins-2.375.2-1.1.noarch                                                                                 1/1
+  Verifying  : jenkins-2.375.2-1.1.noarch                                                                                 1/1
+
+Installed:
+  jenkins.noarch 0:2.375.2-1.1
+
+Complete!
